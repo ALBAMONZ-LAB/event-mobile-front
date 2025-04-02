@@ -1,12 +1,11 @@
+import { Header } from '@event-mobile-front/components';
+
 export default function Home() {
   return (
     <div>
-      <main>
-        메인페이지
-      </main>
-      <footer>
-        푸터
-      </footer>
+      <Header title={'홈'} />
+      <main>메인페이지</main>
+      <footer>푸터</footer>
     </div>
   );
 }
