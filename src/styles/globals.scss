@@ -1,0 +1,66 @@
+/* ========== 기본 리셋 ========== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========== HTML 기본 구조 ========== */
+html {
+  font-size: 16px; // 필요시 vw 기반으로 바꿔도 됨
+  -webkit-text-size-adjust: 100%; // iOS 글자 확대 방지
+  -webkit-tap-highlight-color: transparent; // 모바일 탭 하이라이트 제거
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
+  '맑은 고딕', arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+  line-height: 1;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== 링크 / 버튼 초기화 ========== */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  all: unset; // 기본 스타일 제거
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  all: unset;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ========== 리스트 초기화 ========== */
+ul,
+ol {
+  list-style: none;
+}
+
+/* ========== 이미지 초기화 ========== */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========== 테이블 초기화 ========== */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
