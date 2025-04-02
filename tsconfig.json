@@ -21,8 +21,9 @@
     ],
     "paths": {
       "@event-mobile-front/*": ["src/*"],
-      "@event-mobile-front-components": ["src/components/index"],
-      "@event-mobile-front-api/*": ["src/api"]
+      "@event-mobile-front/components": ["src/components/index"],
+      "@event-mobile-front/types": ["src/types/index"],
+      "@event-mobile-front/api": ["src/api/index"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
