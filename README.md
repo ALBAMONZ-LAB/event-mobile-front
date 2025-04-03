@@ -12,7 +12,7 @@
 
 ### 1. hosts 파일 등록
 
-`/etc/hosts` 파일에 아래 라인을 추가합니다:
+`sudo vi /etc/hosts` 파일에 아래 라인을 추가합니다:
 
 ```
 127.0.0.1 local.event.albamon.com
