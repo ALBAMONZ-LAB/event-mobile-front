@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  event-mobile-front
 
-## Getting Started
+알바몬 이벤트 모바일 웹 프로젝트
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## HTTPS 로컬 개발환경 구성 가이드
+
+로컬에서 `https://local.event.albamon.com:4300` 으로 접속 가능한 HTTPS 개발환경을 구성
+
+---
+
+### 1. hosts 파일 등록
+
+`/etc/hosts` 파일에 아래 라인을 추가합니다:
+
+```
+127.0.0.1 local.event.albamon.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+###  2. 로컬 인증서 생성 (mkcert 사용)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+HTTPS 접속을 위해 로컬 인증서를 생성합니다.
 
-## Learn More
+#### 2-1. mkcert 설치 (최초 1회만)
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+brew install mkcert
+mkcert -install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### 2-2. 인증서 생성
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+mkdir -p cert
+mkcert -key-file cert/local.event.key.pem -cert-file cert/local.event.cert.pem albamon.com local.event.albamon.com
+```
 
-## Deploy on Vercel
+생성된 인증서 파일:
+```
+cert/
+├— local.event.key.pem
+└— local.event.cert.pem
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. http, https 개발 서버 실행
+
+#### 빌드 & 실행
+
+```bash
+pnpm dev // http
+pnpm start // https
+```
+접속 주소:
+- https://local.event.albamon.com:4300
+- http://localhost:3000
+
+---
+
+##  프로젝트 구조
+
+```
+event-mobile-front/
+├— cert/
+│   ├— local.event.key.pem
+│   └— local.event.cert.pem
+├— src
+│   ├— app/
+│   ├— components/
+│   └— ...
+├— public/
+├— server.js
+├— package.json
+└— ...
+```
+
+---
