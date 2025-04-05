@@ -6,3 +6,9 @@ export interface EventDetailResponse {
   pageJson: PageJson;
   createdAt: string;
 }
+
+export interface EventListResponse {
+  id: number;
+  eventTitle: string;
+  createdAt: string;
+}
