@@ -1,13 +1,12 @@
 'use client';
 
+import { getEventDetailPage } from '@event-mobile-front/api';
+import { Header } from '@event-mobile-front/components';
+import { queryKeys } from '@event-mobile-front/queryKey';
+import type { DehydratedState } from '@tanstack/react-query';
+import { HydrationBoundary, QueryClient, QueryClientProvider, dehydrate, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { HydrationBoundary, QueryClient, QueryClientProvider, dehydrate } from '@tanstack/react-query';
-import { getEventDetailPage } from '@event-mobile-front/api';
-import { queryKeys } from '@event-mobile-front/queryKey';
-import { Header } from '@event-mobile-front/components';
-import { useQuery } from '@tanstack/react-query';
-import type { DehydratedState } from '@tanstack/react-query';
 
 export default function EventViewClient() {
   const searchParams = useSearchParams();
@@ -24,6 +23,7 @@ export default function EventViewClient() {
   );
 }
 
+// prefetchQuery 를 server component에서 안하고 client component에서한 이유 물어보기!
 function PrefetchAndRender({ eventId }: { eventId: number }) {
   const [ready, setReady] = useState(false);
   const [dehydratedState, setDehydratedState] = useState<DehydratedState | null>(null);
