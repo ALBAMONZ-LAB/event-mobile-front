@@ -97,6 +97,7 @@ function EventDetailContent({ eventId }: { eventId: number }) {
           <p>Empty body...</p>
         )}
       </div>
+      {/* {footer && <RenderComponent sectionType={'footer'} {{ ...footer.contents }} />} */}
     </>
   );
 }
