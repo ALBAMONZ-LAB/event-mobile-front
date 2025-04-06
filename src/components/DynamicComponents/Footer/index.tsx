@@ -1,8 +1,12 @@
-import { PageJsonContentsItem, StyleConfig } from '@event-mobile-front/types'
+import { StyleConfig } from '@event-mobile-front/types';
+
+interface FooterContent {
+  src: string;
+  style?: StyleConfig;
+}
 
 export interface FooterProps {
-  contents: Partial<PageJsonContentsItem>;
-  sectionStyle?: Partial<StyleConfig>;
+  contents: FooterContent;
 }
 
 export const Footer = ({ contents }: FooterProps) => {
