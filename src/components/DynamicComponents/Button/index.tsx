@@ -1,7 +1,12 @@
-import { PageJsonContentsItem } from'@event-mobile-front/types'
+import { StyleConfig } from '@event-mobile-front/types';
+
+interface ButtonContent {
+  text: string;
+  style?: StyleConfig;
+}
 
 export interface ButtonProps {
-  contents: PageJsonContentsItem;
+  contents: ButtonContent;
 }
 
 export const Button = ({ contents }: ButtonProps) => {

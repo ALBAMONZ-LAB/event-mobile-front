@@ -1,8 +1,12 @@
-import { PageJsonContentsItem } from '@event-mobile-front/types'
+import { StyleConfig } from '@event-mobile-front/types';
+
+interface FloatingButtonContent {
+  text: string;
+  style?: StyleConfig;
+}
 
 export interface FloatingButtonProps {
-  contents: PageJsonContentsItem;
-  sectionStyle?: React.CSSProperties;
+  contents: FloatingButtonContent;
 }
 
 export const FloatingButton = ({ contents }: FloatingButtonProps) => {

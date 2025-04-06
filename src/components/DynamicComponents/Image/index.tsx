@@ -1,19 +1,14 @@
-import { CSSProperties } from "react";
+import { StyleConfig } from '@event-mobile-front/types';
+
+interface ImageContent {
+  src: string;
+  style?: StyleConfig;
+}
 
 export interface ImageProps {
-  contents: {
-    src: string;
-    style?: CSSProperties & {
-      imageWidth?: string | number;
-    };
-  };
-  sectionStyle?: CSSProperties;
+  contents: ImageContent;
 }
 
 export const Image = ({ contents }: ImageProps) => {
-  return (
-    <>
-      {contents.src && <img src={contents.src} alt="example" style={{ width: contents.style?.width || '100%' }} />}
-    </>
-  );
+  return <>{contents.src && <img src={contents.src} alt="example" style={{ ...contents.style }} />}</>;
 };
