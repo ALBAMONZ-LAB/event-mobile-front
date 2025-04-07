@@ -7,10 +7,13 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { queryKeys } from '@event-mobile-front/queryKey';
 
-const eventId = 3;
+interface EventViewPageProps {
+  params?: Promise<{ eventId: string }>;
+}
 
-export default async function EventViewPage() {
+export default async function EventViewPage({ params }: EventViewPageProps) {
   const queryClient = new QueryClient();
+  const eventId = Number((await params)?.eventId);
   const queryKey = queryKeys.event.detail(eventId)
 
   await queryClient.prefetchQuery({

@@ -13,7 +13,7 @@ export default function EventListClient() {
     <main>
       {data?.map(event => (
         <div key={event.id}>
-          <Link href={`/event/view`}>
+          <Link href={`/event/${event.id}`}>
             <h2>{event.eventTitle}</h2>
           </Link>
         </div>
