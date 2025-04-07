@@ -19,7 +19,7 @@ import {
 } from '@event-mobile-front/components';
 import { EventDetailResponse, StyleConfig } from '@event-mobile-front/types';
 import { useQuery } from '@tanstack/react-query';
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType } from 'react';
 
 export default function EventViewClient({eventId}: {eventId: number}) {
   const queryKey = queryKeys.event.detail(eventId);
@@ -72,7 +72,7 @@ function EventDetailContent({ data }: EventDetailContentProps) {
           <p>Empty body...</p>
         )}
       </div>
-      {/* {footer && <RenderComponent sectionType={'footer'} {{ ...footer.contents }} />} */}
+       {footer && <Footer contents={ footer.contents } />}
     </div>
   );
 }
