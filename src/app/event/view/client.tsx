@@ -2,7 +2,6 @@
 
 import { getEventDetailPage } from '@event-mobile-front/api';
 import { queryKeys } from '@event-mobile-front/queryKey';
-import type { DehydratedState } from '@tanstack/react-query';
 import {
   Header,
   Button,
@@ -18,68 +17,35 @@ import {
   FooterProps,
   ImageProps,
 } from '@event-mobile-front/components';
-import { StyleConfig } from '@event-mobile-front/types';
-import { HydrationBoundary, QueryClient, QueryClientProvider, dehydrate, useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { EventDetailResponse, StyleConfig } from '@event-mobile-front/types';
+import { useQuery } from '@tanstack/react-query';
+import { ComponentType, useEffect, useState } from 'react';
 
-export default function EventViewClient() {
-  const searchParams = useSearchParams();
-  const eventId = Number(searchParams.get('eventId'));
-
-  const [queryClient] = useState(() => new QueryClient());
-
-  if (Number.isNaN(eventId)) return <div>잘못된 접근입니다</div>;
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <PrefetchAndRender eventId={eventId} />
-    </QueryClientProvider>
-  );
-}
-
-// prefetchQuery 를 server component에서 안하고 client component에서한 이유 물어보기!
-function PrefetchAndRender({ eventId }: { eventId: number }) {
-  const [ready, setReady] = useState(false);
-  const [dehydratedState, setDehydratedState] = useState<DehydratedState | null>(null);
-  const queryClient = new QueryClient();
-
-  useEffect(() => {
-    queryClient
-      .prefetchQuery({
-        queryKey: queryKeys.event.detail(eventId),
-        queryFn: () => getEventDetailPage(eventId),
-      })
-      .then(() => {
-        const state = dehydrate(queryClient);
-        setDehydratedState(state);
-        setReady(true);
-      });
-  }, [eventId]);
-
-  if (!ready) return <div>Hydrating...</div>;
-
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      <EventDetailContent eventId={eventId} />
-    </HydrationBoundary>
-  );
-}
-
-function EventDetailContent({ eventId }: { eventId: number }) {
+export default function EventViewClient({eventId}: {eventId: number}) {
+  const queryKey = queryKeys.event.detail(eventId);
   const { data, isLoading } = useQuery({
-    queryKey: queryKeys.event.detail(eventId),
+    queryKey,
     queryFn: () => getEventDetailPage(eventId),
   });
 
   if (isLoading) return <div>loading...</div>;
   if (!data) return <div>Empty here...</div>;
 
-  const { header, body, footer } = data.pageJson;
+  return (
+      <EventDetailContent data={data} />
+  );
+}
+
+interface EventDetailContentProps {
+ data: EventDetailResponse;
+}
+
+function EventDetailContent({ data }: EventDetailContentProps) {
+
+  const {body, footer } = data.pageJson;
 
   return (
     <div>
-      <Header title={header} />
       <div
         style={{
           display: 'flex',
@@ -112,7 +78,7 @@ function EventDetailContent({ eventId }: { eventId: number }) {
 }
 
 const MAPPED_COMPONENTS: {
-  [K in keyof ComponentPropsMap]: React.ComponentType<ComponentPropsMap[K]>;
+  [K in keyof ComponentPropsMap]: ComponentType<ComponentPropsMap[K]>;
 } = {
   header: Header,
   image: Image,
@@ -130,7 +96,7 @@ interface ComponentPropsMap {
   carousel: CarouselProps;
   floatingButton: FloatingButtonProps;
   footer: FooterProps;
-  custom: {};
+  custom: object;
 }
 
 type ComponentDataMap = {
@@ -147,7 +113,7 @@ type ComponentData = ComponentDataMap[keyof ComponentDataMap];
 const RenderComponent = ({ ...props }: ComponentData) => {
   if (!props.sectionType) return null;
 
-  const Component = MAPPED_COMPONENTS[props.sectionType] as React.ComponentType<any>;
+  const Component = MAPPED_COMPONENTS[props.sectionType] as ComponentType<any>;
   if (!Component) return null;
 
   return (
