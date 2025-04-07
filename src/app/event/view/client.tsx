@@ -78,16 +78,25 @@ function EventDetailContent({ eventId }: { eventId: number }) {
   const { header, body, footer } = data.pageJson;
 
   return (
-    <>
+    <div>
       <Header title={header} />
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          //background: eventBackground,
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         {Array.isArray(body) && body.length > 0 ? (
           body.map((item, index) => (
             <section
               key={`${item.sectionType}_${index}`}
               style={{
                 ...item.sectionStyle,
-                ...(item.sectionType === 'floatingButton' && { position: 'absolute', width: '360px' }),
+                ...(item.sectionType === 'floatingButton' && { position: 'fixed', width: '360px' }),
               }}
             >
               <RenderComponent {...(item as ComponentData)} />
@@ -98,7 +107,7 @@ function EventDetailContent({ eventId }: { eventId: number }) {
         )}
       </div>
       {/* {footer && <RenderComponent sectionType={'footer'} {{ ...footer.contents }} />} */}
-    </>
+    </div>
   );
 }
 
