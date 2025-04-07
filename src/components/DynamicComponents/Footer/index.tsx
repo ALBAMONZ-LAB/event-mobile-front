@@ -1,7 +1,7 @@
 import { StyleConfig } from '@event-mobile-front/types';
 
 interface FooterContent {
-  src: string;
+  src?: string;
   style?: StyleConfig;
 }
 
