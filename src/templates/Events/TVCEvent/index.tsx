@@ -8,8 +8,8 @@ interface TvcEventTemplateProps extends EventDetailContentProps {
 
 // TODO it should be refactored...
 const useTvcEventButtonActions = () => {
-  const handleSubmit = () => alert('button event from template');
-  const handleFloating = () => alert('floating button event from template');
+  const handleSubmit = () => alert('button event from template~');
+  const handleFloating = () => alert('floating button event from template~');
 
   return {
     1: handleSubmit,
