@@ -6,7 +6,7 @@
 
 ## HTTPS 로컬 개발환경 구성 가이드
 
-로컬에서 `https://local.event.albamon.com:4300` 으로 접속 가능한 HTTPS 개발환경을 구성
+로컬에서 `https://local.event.albamon.com:4300` 으로 접속 가능한 HTTPS 개발환경을 구성 (회사용)
 
 ---
 
