@@ -27,9 +27,9 @@ export default function EventViewClient({eventId, templateKey}: EventViewClientP
   if (isLoading) return <div>loading...</div>;
   if (!data) return <div>Empty here...</div>;
 
-  // const TemplateComponent = dynamic<(props: EventDetailTemplateProps) => JSX.Element>(() =>
-  //   import(`@/features/event/templates/${templateKey}/EventDetailTemplate`)
-  // );
+  const TemplateComponent = dynamic<(props: EventDetailTemplateProps) => JSX.Element>(() =>
+    import(`@/features/event/templates/${templateKey}/EventDetailTemplate`)
+  );
 
   return (
       <EventDetailContent data={data} />
