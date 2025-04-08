@@ -16,9 +16,10 @@ import {
 import { ComponentType } from 'react';
 import { EventDetailResponse, StyleConfig } from '@event-mobile-front/types';
 
+type ButtonActionType = Record<number, () => void>;
 export interface EventDetailContentProps {
   data: EventDetailResponse;
-  buttonActions?: Record<number, () => void>;
+  buttonActions?: ButtonActionType;
 }
 
 export function EventDetailContent({ data, buttonActions }: EventDetailContentProps) {
@@ -45,7 +46,7 @@ export function EventDetailContent({ data, buttonActions }: EventDetailContentPr
                 ...(item.sectionType === 'floatingButton' && { position: 'fixed', width: '360px' }),
               }}
             >
-              <RenderComponent {...(item as ComponentData)} />
+              <RenderComponent {...(item as ComponentData)} buttonActions={buttonActions} />
             </section>
           ))
         ) : (
@@ -90,20 +91,29 @@ type ComponentDataMap = {
 
 type ComponentData = ComponentDataMap[keyof ComponentDataMap];
 
-const RenderComponent = ({ ...props }: ComponentData) => {
+const CLICKABLE_KEYS = ['button', 'floatingButton'];
+
+const RenderComponent = ({ ...props }: ComponentData & { buttonActions?: ButtonActionType }) => {
   if (!props.sectionType) return null;
+  const { orderNo, sectionType, ...rest } = props;
 
   const Component = MAPPED_COMPONENTS[props.sectionType] as ComponentType<any>;
   if (!Component) return null;
 
-  return (
-    <Component {...props}>
-      {/* {'children' in props &&
-        props.children?.map((child, i) => (
-          <span key={`${child.sectionType}_${i}`}>
-            <RenderComponent {...child} />
-          </span>
-        ))} */}
-    </Component>
-  );
+  const isClickable = (sectionType: keyof ComponentPropsMap) => {
+    return CLICKABLE_KEYS.includes(sectionType);
+  };
+
+  const handleOnClickAsProps = (sectionType: keyof ComponentPropsMap) => {
+    let injectedProps = rest;
+    if (isClickable(sectionType) && orderNo) {
+      const onClick = props.buttonActions?.[orderNo];
+      injectedProps = { ...rest, onClick };
+    }
+    return injectedProps;
+  };
+
+  const injectedProps = handleOnClickAsProps(sectionType);
+
+  return <Component {...injectedProps} />;
 };

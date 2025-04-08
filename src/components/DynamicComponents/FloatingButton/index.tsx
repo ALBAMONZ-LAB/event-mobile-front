@@ -7,16 +7,12 @@ interface FloatingButtonContent {
 
 export interface FloatingButtonProps {
   contents: FloatingButtonContent;
+  onClick?: () => void;
 }
 
-export const FloatingButton = ({ contents }: FloatingButtonProps) => {
+export const FloatingButton = ({ contents, onClick }: FloatingButtonProps) => {
   return (
-    <button
-      style={contents.style}
-      onClick={() => {
-        alert(`"${contents.text}" 플로팅 버튼 클릭`);
-      }}
-    >
+    <button style={contents.style} onClick={onClick}>
       {contents.text}
     </button>
   );

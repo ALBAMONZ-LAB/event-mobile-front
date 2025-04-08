@@ -6,16 +6,19 @@ interface TvcEventTemplateProps extends EventDetailContentProps {
   onClick?: () => void;
 }
 
-export default function TvcEventTemplate({ data }: TvcEventTemplateProps) {
-  const handleSubmit = () => {
-    alert('버트트트트튼');
-  };
+// TODO it should be refactored...
+const useTvcEventButtonActions = () => {
+  const handleSubmit = () => alert('button event from template');
+  const handleFloating = () => alert('floating button event from template');
 
-  const buttonActions = {
-    0: handleSubmit,
-    3: () => {
-      alert('플로팅버튼');
-    },
+  return {
+    1: handleSubmit,
+    3: handleFloating,
   };
-  return <EventDetailContent data={data} buttonActions={buttonActions}/>;
+};
+
+export default function TvcEventTemplate({ data }: TvcEventTemplateProps) {
+  const buttonActions = useTvcEventButtonActions();
+
+  return <EventDetailContent data={data} buttonActions={buttonActions} />;
 }

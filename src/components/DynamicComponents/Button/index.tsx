@@ -7,16 +7,12 @@ interface ButtonContent {
 
 export interface ButtonProps {
   contents: ButtonContent;
+  onClick?: () => void;
 }
 
-export const Button = ({ contents }: ButtonProps) => {
+export const Button = ({ contents, onClick }: ButtonProps) => {
   return (
-    <button
-      style={contents.style}
-      onClick={() => {
-        alert(`"${contents.text}" 버튼 클릭`);
-      }}
-    >
+    <button style={contents.style} onClick={onClick}>
       {contents.text}
     </button>
   );
