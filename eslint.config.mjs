@@ -24,6 +24,9 @@ export default [
         process: true,
         __dirname: true,
       },
+      env: {
+        browser: true,
+      },
     },
 
     plugins: {

@@ -1,22 +1,28 @@
 import {
-  Button, ButtonProps,
-  Carousel, CarouselProps,
+  Button,
+  ButtonProps,
+  Carousel,
+  CarouselProps,
   CustomizedComponent,
-  FloatingButton, FloatingButtonProps,
-  Footer, FooterProps,
-  Header, HeaderProps,
-  Image, ImageProps,
+  FloatingButton,
+  FloatingButtonProps,
+  Footer,
+  FooterProps,
+  Header,
+  HeaderProps,
+  Image,
+  ImageProps,
 } from '@event-mobile-front/components';
 import { ComponentType } from 'react';
 import { EventDetailResponse, StyleConfig } from '@event-mobile-front/types';
 
 export interface EventDetailContentProps {
   data: EventDetailResponse;
+  buttonActions?: Record<number, () => void>;
 }
 
-export function EventDetailContent({ data }: EventDetailContentProps) {
-
-  const {body, footer } = data.pageJson;
+export function EventDetailContent({ data, buttonActions }: EventDetailContentProps) {
+  const { body, footer } = data.pageJson;
 
   return (
     <div>
@@ -46,7 +52,7 @@ export function EventDetailContent({ data }: EventDetailContentProps) {
           <p>Empty body...</p>
         )}
       </div>
-      {footer && <Footer contents={ footer.contents } />}
+      {footer && <Footer contents={footer.contents} />}
     </div>
   );
 }
@@ -75,11 +81,11 @@ interface ComponentPropsMap {
 
 type ComponentDataMap = {
   [K in keyof ComponentPropsMap]: {
-  sectionType: K;
-  orderNo?: number;
-  sectionStyle?: StyleConfig;
-  children?: ComponentData[];
-} & ComponentPropsMap[K];
+    sectionType: K;
+    orderNo?: number;
+    sectionStyle?: StyleConfig;
+    children?: ComponentData[];
+  } & ComponentPropsMap[K];
 };
 
 type ComponentData = ComponentDataMap[keyof ComponentDataMap];
