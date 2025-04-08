@@ -22,7 +22,7 @@
     "paths": {
       "@event-mobile-front/*": ["src/*"],
       "@event-mobile-front/components": ["src/components/index"],
-      "@event-mobile-front/template": ["src/template/index"],
+      "@event-mobile-front/templates": ["src/templates/index"],
       "@event-mobile-front/types": ["src/types/index"],
       "@event-mobile-front/api": ["src/api/index"],
       "@event-mobile-front/queryKey": ["src/queryKey/index"]

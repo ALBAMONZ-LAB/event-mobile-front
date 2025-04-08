@@ -10,7 +10,7 @@ import {
 import { ComponentType } from 'react';
 import { EventDetailResponse, StyleConfig } from '@event-mobile-front/types';
 
-interface EventDetailContentProps {
+export interface EventDetailContentProps {
   data: EventDetailResponse;
 }
 

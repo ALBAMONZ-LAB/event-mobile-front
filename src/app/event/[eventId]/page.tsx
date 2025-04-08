@@ -8,15 +8,13 @@ import { Suspense } from 'react';
 import { queryKeys } from '@event-mobile-front/queryKey';
 
 interface EventViewPageProps {
-  params?: Promise<{ eventId: number }>;
-  searchParams?: Promise<{ [key: string]: string | undefined }>;
+  params?: Promise<{ eventId: string }>;
 }
 
-export default async function EventViewPage({ params, searchParams }: EventViewPageProps) {
+export default async function EventViewPage({ params }: EventViewPageProps) {
   const queryClient = new QueryClient();
   // TODO 추후 api 도 수정이 필요함
   const eventId = Number((await params)?.eventId);
-  const templateKey = (await searchParams)?.eventKey;
   const queryKey = queryKeys.event.detail(eventId)
 
   await queryClient.prefetchQuery({
@@ -25,7 +23,7 @@ export default async function EventViewPage({ params, searchParams }: EventViewP
   });
 
   const eventData = queryClient.getQueryData<EventDetailResponse>(queryKey);
-  if (!eventData || !templateKey) {
+  if (!eventData) {
     notFound(); // 404
   }
 
@@ -36,7 +34,7 @@ export default async function EventViewPage({ params, searchParams }: EventViewP
       <Header title={eventData.pageJson.header} />
       <HydrationBoundary state={dehydratedState}>
         <Suspense fallback={<div>Loading...</div>}>
-          <EventDetailClient eventId={eventId} templateKey={templateKey} />
+          <EventDetailClient eventId={eventId} />
         </Suspense>
       </HydrationBoundary>
     </>

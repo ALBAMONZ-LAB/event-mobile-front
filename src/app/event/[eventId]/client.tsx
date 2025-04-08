@@ -3,39 +3,49 @@
 import { getEventDetailPage } from '@event-mobile-front/api';
 import { queryKeys } from '@event-mobile-front/queryKey';
 import { useQuery } from '@tanstack/react-query';
-import { EventDetailContent } from '@event-mobile-front/template';
-import dynamic from 'next/dynamic';
 import { EventDetailResponse } from '@event-mobile-front/types';
-import { ComponentType, FC, JSX } from 'react';
+import { JSX, lazy, Suspense } from 'react';
 
 interface EventViewClientProps {
   eventId: number;
-  templateKey: string;
 }
 
 interface EventDetailTemplateProps {
   data: EventDetailResponse;
 }
 
-export default function EventViewClient({eventId, templateKey}: EventViewClientProps) {
+type TemplateImportFn = () => Promise<{
+  default: (props: EventDetailTemplateProps) => JSX.Element;
+}>;
+
+const EVENT_TEMPLATE_LIST: Record<string, TemplateImportFn> = {
+  TVCEvent: () => import('@event-mobile-front/templates/Events/TVCEvent'),
+  // 다른 이벤트들...
+};
+const fallbackTemplate: TemplateImportFn = () => import('@event-mobile-front/templates/Fallback');
+
+export default function EventViewClient({ eventId }: EventViewClientProps) {
   const queryKey = queryKeys.event.detail(eventId);
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey,
     queryFn: () => getEventDetailPage(eventId),
   });
 
-  if (isLoading) return <div>loading...</div>;
-  if (!data) return <div>Empty here...</div>;
+  if (!data) return <div>이벤트 없어유~</div>;
 
-  const TemplateComponent = dynamic<(props: EventDetailTemplateProps) => JSX.Element>(() =>
-    import(`@/features/event/templates/${templateKey}/EventDetailTemplate`)
-  );
+  // dynamic import는 내부에 suspense를 사용하고 있어서 loading 옵션에 넣으면 됨.
+  // const TemplateComponent = dynamic(
+  //   EVENT_TEMPLATE_LIST[data.eventTitle] || fallbackTemplate,
+  //   {
+  //     ssr: false,
+  //     loading: () => <div>템플릿 로딩 중...</div>,
+  //   }
+  // );
+  const TemplateComponent = lazy(EVENT_TEMPLATE_LIST[data.eventTitle] || fallbackTemplate);
 
   return (
-      <EventDetailContent data={data} />
-      // <TemplateComponent data={data} />
+    <Suspense fallback={<div>템플릿 로딩 중...</div>}>
+      <TemplateComponent data={data} />
+    </Suspense>
   );
 }
-
-
-
