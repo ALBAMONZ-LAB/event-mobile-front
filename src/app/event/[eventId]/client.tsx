@@ -33,17 +33,12 @@ export default function EventViewClient({ eventId }: EventViewClientProps) {
   });
 
   if (!data) return <div>이벤트 없어유~</div>;
-
-  // dynamic import는 내부에 suspense를 사용하고 있어서 loading 옵션에 넣으면 됨.
-  const TemplateComponent = dynamic(EVENT_TEMPLATE_LIST[data.eventTitle] || fallbackTemplate, {
+  const EventTemplate = dynamic(EVENT_TEMPLATE_LIST[data.eventTitle] || fallbackTemplate, {
     ssr: false,
     loading: () => <div>템플릿 로딩 중...</div>,
   });
-  // const TemplateComponent = lazy(EVENT_TEMPLATE_LIST[data.eventTitle] || fallbackTemplate);
 
   return (
-    // <Suspense fallback={<div>템플릿 로딩 중...</div>}>
-    <TemplateComponent data={data} />
-    // </Suspense>
+    <EventTemplate data={data} />
   );
 }
